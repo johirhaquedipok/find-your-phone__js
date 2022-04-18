@@ -4,10 +4,11 @@ const searchBtn = document.getElementById('search-btn');
 
 
 searchBtn.addEventListener('click', () => {
+    emptyUi();
     const searchInput = document.getElementById('search-input');
     const searchInputValue = searchInput.value;
     if(searchInputValue === '') {
-        emptyUi();
+        emptyValueUi();
     }
     else {
         // this function will load api data
@@ -67,11 +68,17 @@ const displayError = (id,error, text) => {
         displayHtml.insertAdjacentHTML('afterbegin', html);
 }
 
-const emptyUi = () => {
+// for empty value
+const emptyValueUi = () => {
     const displayHtml = document.getElementById('display-ui');
     displayHtml.innerHTML = '<div class="alert alert-danger text-center">You did not input any search query</div>'
 }
 
+// for clearing all errors and search results
+const emptyUi = () => {
+    const displayHtml = document.getElementById('display-ui');
+    displayHtml.innerHTML = ''
+}
 
 
 
