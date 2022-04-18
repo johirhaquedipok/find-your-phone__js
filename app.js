@@ -1,8 +1,5 @@
 const searchBtn = document.getElementById('search-btn');
 
-
-
-
 searchBtn.addEventListener('click', () => {
     emptyUi();
     const searchInput = document.getElementById('search-input');
@@ -45,7 +42,7 @@ const displaySuccess = (id, info) => {
         const div= document.createElement('div')
             div.classList.add('col');
             div.innerHTML = `
-                <div class="card h-100" >
+                <div onclick=detailInfo() class="card h-100" >
                  <img src="${phone.image}" class="card-img-top" alt="${phone.phone_name}">
                  <div class="card-body">
                    <h5 class="card-title">${phone.phone_name}</h5>
@@ -60,10 +57,10 @@ const displaySuccess = (id, info) => {
 // for error function
 const displayError = (id,error, text) => {
     const displayHtml = document.getElementById(id);
-        const html = `<div class="alert alert-danger" role="alert">
-       ${text} :  ${error}
-      </div>
-        
+        const html = `<div>
+        <div class="alert alert-danger text-center">No Result Found</div>
+        <div class="alert alert-danger text-center">${text} : ${error}</div>
+        <div>
         `
         displayHtml.insertAdjacentHTML('afterbegin', html);
 }
@@ -80,9 +77,10 @@ const emptyUi = () => {
     displayHtml.innerHTML = ''
 }
 
-
-
-
+// onclick function after searchf result
+const detailInfo = () => {
+    console.log('ok')
+}
 
 
 

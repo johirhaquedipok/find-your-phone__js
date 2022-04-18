@@ -1,9 +1,10 @@
-1. take the value from seardh box
-2. if serarch box !== value show result = NO PHONE FOUND
+1. take the value from seardh box👍
+2. if serarch box !== value show result = NO PHONE FOUND👍
 
-3. if search === show phones with UI;
+3. if search === show phones with UI;👍
 
-3.1 example : show example with card 
+3.1 example : show example with card box👍
+
 3.2 when clicked on card show details in between cards and Search box with all details
 
 3.3 if released the the show release date if not show phone is not released
