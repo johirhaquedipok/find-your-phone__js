@@ -6,8 +6,14 @@ const searchBtn = document.getElementById('search-btn');
 searchBtn.addEventListener('click', () => {
     const searchInput = document.getElementById('search-input');
     const searchInputValue = searchInput.value;
-    // this function will load api data
-    loadData(searchInputValue)
+    if(searchInputValue === '') {
+        emptyUi();
+    }
+    else {
+        // this function will load api data
+        loadData(searchInputValue)
+
+    }
 })
 
 
@@ -31,6 +37,7 @@ function displayUi(data) {
     displaySuccess('display-ui', info)
 }
 
+// for success function
 const displaySuccess = (id, info) => {
     let displayHtml = document.getElementById(id);
     info.forEach(phone => {
@@ -49,15 +56,20 @@ const displaySuccess = (id, info) => {
         });
 }
 
+// for error function
 const displayError = (id,error, text) => {
     const displayHtml = document.getElementById(id);
-        
         const html = `<div class="alert alert-danger" role="alert">
        ${text} :  ${error}
       </div>
         
         `
         displayHtml.insertAdjacentHTML('afterbegin', html);
+}
+
+const emptyUi = () => {
+    const displayHtml = document.getElementById('display-ui');
+    displayHtml.innerHTML = '<div class="alert alert-danger text-center">You did not input any search query</div>'
 }
 
 
