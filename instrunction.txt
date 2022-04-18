@@ -1,0 +1,22 @@
+1. take the value from seardh box
+2. if serarch box !== value show result = NO PHONE FOUND
+
+3. if search === show phones with UI;
+
+3.1 example : show example with card 
+3.2 when clicked on card show details in between cards and Search box with all details
+
+3.3 if released the the show release date if not show phone is not released
+at least 6 commits
+4. for BoNUS
+
+show censor
+show others data
+if result is more than 20. cut off the results
+
+
+5.OPTIONAL
+
+ make a button for show all data 
+ add a spinner while loading the data
+ lowercase all input value
