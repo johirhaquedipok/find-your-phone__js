@@ -1,8 +1,14 @@
 const searchBtn = document.getElementById('search-btn');
+const brand = document.getElementById('brand');
+brand.addEventListener('click', () => {
+    emptyUi('display-ui');
+    emptyUi('detail-info')
+})
 
 searchBtn.addEventListener('click', (e) => {
     e.preventDefault();
     emptyUi('display-ui');
+    emptyUi('detail-info')
     const searchInput = document.getElementById('search-input');
     const searchInputValue = searchInput.value;
     if(searchInputValue === '') {
@@ -101,7 +107,7 @@ const detailUiGenerator = (id, info) => {
     // emptyUi("detail-info")
     const displayHtml = document.getElementById(id);
         emptyUi(id)
-        const {name, image, slug, brand} = info;
+        const {name, image, slug, brand, mainFeatures, others} = info;
         // const {chipSet, displaySize, memory,sensors, storage} = info.mainFeatures;
         // const {Bluetooth, GPS, NFC,Radio, USB, WLAN} = info.others;
         const div = document.createElement('div');
@@ -114,8 +120,12 @@ const detailUiGenerator = (id, info) => {
                     <div class="card-body">
                         <h5 class="card-title">${name}</h5>
                         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text">${mainFeatures?.storage}</p>
+                        <p class="card-text">${mainFeatures?.displaySize}</p>
+                        <p class="card-text">${mainFeatures?.chipSet}</p>
+                        <p class="card-text">${mainFeatures?.memory}</p>
+                        <p class="card-text"> Sensors: ${mainFeatures?.sensors.map( item => `<span>${item.slice(0,item.length)}</span>`)} </p>
                         <p class="card-text">${slug}</p>
-                        <p class="card-text">${brand}</p>
                         <p class="card-text">${info.releaseDate= "" ? 'Not released yet' : info.releaseDate }</p>
                     </div>
                     </div>
