@@ -2,7 +2,7 @@ const searchBtn = document.getElementById('search-btn');
 
 searchBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    emptyUi();
+    emptyUi('display-ui');
     const searchInput = document.getElementById('search-input');
     const searchInputValue = searchInput.value;
     if(searchInputValue === '') {
@@ -38,12 +38,12 @@ function displayUi(data) {
 
 // for success function
 const displaySuccess = (id, info) => {
-    let displayHtml = document.getElementById(id);
+    const displayHtml = document.getElementById(id);
     info.forEach(phone => {
         const div= document.createElement('div')
             div.classList.add('col');
             div.innerHTML = `
-                <div onclick=detailInfo('${phone.slug}') class="card h-100" >
+                <div onclick="detailInfo('${phone.slug}')" class="card h-100" >
                  <img src="${phone.image}" class="card-img-top" alt="${phone.phone_name}">
                  <div class="card-body">
                    <h5 class="card-title">${phone.phone_name}</h5>
@@ -73,13 +73,14 @@ const emptyValueUi = () => {
 }
 
 // for clearing all errors and search results
-const emptyUi = () => {
-    const displayHtml = document.getElementById('display-ui');
+const emptyUi = (id) => {
+    const displayHtml = document.getElementById(id);
     displayHtml.innerHTML = ''
 }
 
 // onclick function after searchf result
 const detailInfo = (id) => {
+    
     const url = `https://openapi.programming-hero.com/api/phone/${id}`;
     fetch(url)
         .then(response => response.json())
@@ -97,12 +98,12 @@ const detailUiLoader = (data) => {
 }
 
 const detailUiGenerator = (id, info) => {
+    // emptyUi("detail-info")
     const displayHtml = document.getElementById(id);
-
+        emptyUi(id)
         const {name, image, slug, brand} = info;
         // const {chipSet, displaySize, memory,sensors, storage} = info.mainFeatures;
         // const {Bluetooth, GPS, NFC,Radio, USB, WLAN} = info.others;
-
         const div = document.createElement('div');
             div.innerHTML = `
                     <div class="row g-0">
@@ -123,15 +124,5 @@ const detailUiGenerator = (id, info) => {
             displayHtml.appendChild(div);
    
 }
-
-
-
-
-
-
-
-
-
-
 
 // https://github.com/programming-hero-web-course2/phone-hunter-johirhaquedipok
