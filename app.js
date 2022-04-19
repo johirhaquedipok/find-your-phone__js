@@ -1,6 +1,7 @@
 const searchBtn = document.getElementById('search-btn');
 
-searchBtn.addEventListener('click', () => {
+searchBtn.addEventListener('click', (e) => {
+    e.preventDefault();
     emptyUi();
     const searchInput = document.getElementById('search-input');
     const searchInputValue = searchInput.value;
@@ -21,12 +22,12 @@ function loadData(searchText) {
     fetch(url)
         .then( response => response.json())
         .then(data => displayUi(data))
-        // .catch( err => console.error(err))
+        .catch( err => console.error(err))
 }
 
 // display result to the html 
 function displayUi(data) {
-   console.log(data)
+  
     const {data:info, status} = data;
     if(!status) {
         displayError('display-ui',status, 'Status') 
@@ -42,7 +43,7 @@ const displaySuccess = (id, info) => {
         const div= document.createElement('div')
             div.classList.add('col');
             div.innerHTML = `
-                <div onclick=detailInfo() class="card h-100" >
+                <div onclick=detailInfo('${phone.slug}') class="card h-100" >
                  <img src="${phone.image}" class="card-img-top" alt="${phone.phone_name}">
                  <div class="card-body">
                    <h5 class="card-title">${phone.phone_name}</h5>
@@ -78,14 +79,50 @@ const emptyUi = () => {
 }
 
 // onclick function after searchf result
-const detailInfo = () => {
-    console.log('ok')
+const detailInfo = (id) => {
+    const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => detailUiLoader(data))
 }
 
 
+const detailUiLoader = (data) => {
+    const {data:info, status} = data;
+    if(!status) {
+        displayError('detail-info',status, 'Status') 
+        }
 
+        detailUiGenerator('detail-info', info)
+}
 
+const detailUiGenerator = (id, info) => {
+    const displayHtml = document.getElementById(id);
 
+        const {name, image, slug, brand} = info;
+        // const {chipSet, displaySize, memory,sensors, storage} = info.mainFeatures;
+        // const {Bluetooth, GPS, NFC,Radio, USB, WLAN} = info.others;
+
+        const div = document.createElement('div');
+            div.innerHTML = `
+                    <div class="row g-0">
+                    <div class="col-md-5">
+                    <img src="${image}" class="img-fluid rounded-start" alt="${name}">
+                    </div>
+                    <div class="col-md-7">
+                    <div class="card-body">
+                        <h5 class="card-title">${name}</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text">${slug}</p>
+                        <p class="card-text">${brand}</p>
+                        <p class="card-text">${info.releaseDate= "" ? 'Not released yet' : info.releaseDate }</p>
+                    </div>
+                    </div>
+                </div>
+            `
+            displayHtml.appendChild(div);
+   
+}
 
 
 

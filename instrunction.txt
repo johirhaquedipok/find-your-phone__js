@@ -20,4 +20,4 @@ if result is more than 20. cut off the results
 
  make a button for show all data 
  add a spinner while loading the data
- lowercase all input value
+ lowercase all input value👍
