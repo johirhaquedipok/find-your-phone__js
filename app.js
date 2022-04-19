@@ -28,7 +28,7 @@ function loadData(searchText) {
     fetch(url)
         .then( response => response.json())
         .then(data => displayUi(data))
-        .catch( err => console.error(err))
+        .catch( err => displayError(err))
 }
 
 // display result to the html 
@@ -62,7 +62,7 @@ const displaySuccess = (id, info) => {
 }
 
 // for error function
-const displayError = (id,error, text) => {
+const displayError = (error, id ='display-ui', text = 'Error') => {
     const displayHtml = document.getElementById(id);
         const html = `<div>
         <div class="alert alert-danger text-center">No Result Found</div>
