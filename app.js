@@ -49,7 +49,7 @@ const displaySuccess = (id, info) => {
         const div= document.createElement('div')
             div.classList.add('col');
             div.innerHTML = `
-                <div onclick="detailInfo('${phone.slug}')" class="card h-100" >
+                <div onclick="detailInfo('${phone.slug}')" class="card h-100 w-md-75" >
                  <img src="${phone.image}" class="card-img-top" alt="${phone.phone_name}">
                  <div class="card-body">
                    <h5 class="card-title">${phone.phone_name}</h5>
@@ -109,12 +109,12 @@ const detailUiGenerator = (id, info) => {
         emptyUi(id)
         const {name, image, slug, brand, mainFeatures, others} = info;
         // const {chipSet, displaySize, memory,sensors, storage} = info.mainFeatures;
-        // const {Bluetooth, GPS, NFC,Radio, USB, WLAN} = info.others;
+      
         const div = document.createElement('div');
             div.innerHTML = `
-                    <div class="row g-0">
+                    <div class="row g-3">
                     <div class="col-md-5">
-                    <img src="${image}" class="img-fluid rounded-start" alt="${name}">
+                    <img src="${image}" class="img-fluid rounded-start w-75" alt="${name}">
                     </div>
                     <div class="col-md-7">
                     <div class="card-body">
@@ -126,8 +126,19 @@ const detailUiGenerator = (id, info) => {
                         <p class="card-text">${mainFeatures?.memory}</p>
                         <p class="card-text"> Sensors: ${mainFeatures?.sensors.map( item => `<span>${item.slice(0,item.length)}</span>`)} </p>
                         <p class="card-text">${slug}</p>
+                        <p class="card-text">${brand}</p>
                         <p class="card-text">${info.releaseDate= "" ? 'Not released yet' : info.releaseDate }</p>
-                    </div>
+                        <div id="more-info" class="d-none" >
+                            <p class="card-text">${info?.others?.Bluetooth}</p>
+                            <p class="card-text">${info?.others?.GPS}</p>
+                            <p class="card-text">${info?.others?.NFC}</p>
+                            <p class="card-text">${info?.others?.Radio}</p>
+                            <p class="-text">${info?.others?.WLAN}</p>
+                            <p class="card-text mb-2">${info?.others?.USB}</p>
+                        </div>
+                        <!-- Btn -->
+                        <a class="btn btn-primary" href="#" onclick="(() => document.getElementById('more-info').classList.toggle('d-none'))()" >More Info</a>
+                        </div>
                     </div>
                 </div>
             `
