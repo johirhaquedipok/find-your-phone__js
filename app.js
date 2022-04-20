@@ -13,6 +13,8 @@ searchBtn.addEventListener('click', (e) => {
     emptyUi('detail-info')
     const searchInput = document.getElementById('search-input');
     const searchInputValue = searchInput.value;
+        // spinner
+    spinner('d-block')
     if(searchInputValue === '') {
         emptySearchInputUi();
     }
@@ -21,7 +23,8 @@ searchBtn.addEventListener('click', (e) => {
         loadData(searchInputValue)
     }
 })
-
+//spinner function
+const spinner = spin =>  document.getElementById('spinner').classList.toggle(spin)
 
 // api call function
 function loadData(searchText) {
@@ -38,28 +41,29 @@ const displaySuccess = (id, data) => {
 
     const {data:info, status} = data;
     const displayHtml = document.getElementById(id);
-
+   
     if(!status) {
         displayError(id) 
     }
-
     // search result limited up to 20 results
     const twentySearchResults = info.slice(0,20)
-
     twentySearchResults.forEach(phone => {
         const div= document.createElement('div')
-            div.classList.add('col');
-            div.innerHTML = `
-                <div onclick="detailInfo('${phone.slug}')" class="card h-100 w-md-75" >
-                 <img src="${phone.image}" class="card-img-top" alt="${phone.phone_name}">
-                 <div class="card-body">
-                   <h5 class="card-title">${phone.phone_name}</h5>
-                   <p class="card-text">${phone.brand}</p>
-                  </div>
-                </div>
-            `
-            displayHtml.appendChild(div);
-        });
+        div.classList.add('col');
+        div.innerHTML = `
+        <div onclick="detailInfo('${phone.slug}')" class="card h-100 w-md-75" >
+        <img src="${phone.image}" class="card-img-top" alt="${phone.phone_name}">
+        <div class="card-body">
+        <h5 class="card-title">${phone.phone_name}</h5>
+        <p class="card-text">${phone.brand}</p>
+        </div>
+        </div>
+        `
+        displayHtml.appendChild(div);
+    });
+    // spinner
+
+    spinner('d-none')
 }
 
 // for error function
@@ -103,8 +107,7 @@ const detailUiGenerator = (id, data) => {
     if(!status) {
         displayError(id) 
     }
-    
-    const displayHtml = document.getElementById(id);
+    const spinner = document.getElementById('spinner')
         emptyUi(id)
         const {name, image, slug, brand, mainFeatures} = info;      
         const div = document.createElement('div');
