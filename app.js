@@ -1,5 +1,9 @@
 // get search btn
 const searchBtn = document.getElementById('search-btn');
+
+//spinner function
+const spinner = spin =>  document.getElementById('spinner').classList.toggle(spin);
+
 // get logo to go to home
 const brand = document.getElementById('brand');
 brand.addEventListener('click', () => {
@@ -14,7 +18,7 @@ searchBtn.addEventListener('click', (e) => {
     const searchInput = document.getElementById('search-input');
     const searchInputValue = searchInput.value;
         // spinner
-    spinner('d-block')
+    // spinner('d-block')
     if(searchInputValue === '') {
         emptySearchInputUi();
     }
@@ -22,9 +26,9 @@ searchBtn.addEventListener('click', (e) => {
         // this function will load api data
         loadData(searchInputValue)
     }
+    searchInput.value = ''
 })
-//spinner function
-const spinner = spin =>  document.getElementById('spinner').classList.toggle(spin)
+
 
 // api call function
 function loadData(searchText) {
@@ -38,7 +42,6 @@ function loadData(searchText) {
 
 // for success function
 const displaySuccess = (id, data) => {
-
     const {data:info, status} = data;
     const displayHtml = document.getElementById(id);
    
@@ -62,16 +65,13 @@ const displaySuccess = (id, data) => {
         displayHtml.appendChild(div);
     });
     // spinner
-
-    spinner('d-none')
+    // spinner('d-none')
 }
 
 // for error function
 const displayError = (id,error) => {
-
     const displayHtml = document.getElementById(id);
         const html = `<div>
-        <!-- <div class="alert alert-danger text-center">No Result Found</div> --> 
         <div class="alert alert-danger text-center">  ${error ? error : 'No Result Found'}</div>
         <div>
         `
@@ -92,7 +92,6 @@ const emptyUi = (id) => {
 
 // onclick function after searchf result
 const detailInfo = (id) => {
-    
     const url = `https://openapi.programming-hero.com/api/phone/${id}`;
     fetch(url)
         .then(response => response.json())
@@ -102,14 +101,15 @@ const detailInfo = (id) => {
 
 // full details of a card generate in html
 const detailUiGenerator = (id, data) => {
-    const {data:info, status} = data;
+ 
+    const {status, data:info} = data;
 
     if(!status) {
         displayError(id) 
     }
-    const spinner = document.getElementById('spinner')
         emptyUi(id)
-        const {name, image, slug, brand, mainFeatures} = info;      
+        const displayHtml  = document.getElementById(id)
+        const {name, image, slug, brand, mainFeatures} = info;
         const div = document.createElement('div');
             div.innerHTML = `
                     <div class="row g-3">
