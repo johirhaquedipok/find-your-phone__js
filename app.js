@@ -1,4 +1,6 @@
+// get search btn
 const searchBtn = document.getElementById('search-btn');
+// get logo to go to home
 const brand = document.getElementById('brand');
 brand.addEventListener('click', () => {
     emptyUi('display-ui');
@@ -12,12 +14,11 @@ searchBtn.addEventListener('click', (e) => {
     const searchInput = document.getElementById('search-input');
     const searchInputValue = searchInput.value;
     if(searchInputValue === '') {
-        emptyValueUi();
+        emptySearchInputUi();
     }
     else {
         // this function will load api data
         loadData(searchInputValue)
-
     }
 })
 
@@ -27,25 +28,25 @@ function loadData(searchText) {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText.toLowerCase()}`
     fetch(url)
         .then( response => response.json())
-        .then(data => displayUi(data))
-        .catch( err => displayError(err))
+        .then(data => displaySuccess('display-ui',data))
+        .catch(err => displayError('display-ui',err))
 }
 
-// display result to the html 
-function displayUi(data) {
-  
-    const {data:info, status} = data;
-    if(!status) {
-        displayError('display-ui',status, 'Status') 
-        }
-
-    displaySuccess('display-ui', info)
-}
 
 // for success function
-const displaySuccess = (id, info) => {
+const displaySuccess = (id, data) => {
+
+    const {data:info, status} = data;
     const displayHtml = document.getElementById(id);
-    info.forEach(phone => {
+
+    if(!status) {
+        displayError(id) 
+    }
+
+    // search result limited up to 20 results
+    const twentySearchResults = info.slice(0,20)
+
+    twentySearchResults.forEach(phone => {
         const div= document.createElement('div')
             div.classList.add('col');
             div.innerHTML = `
@@ -62,18 +63,19 @@ const displaySuccess = (id, info) => {
 }
 
 // for error function
-const displayError = (error, id ='display-ui', text = 'Error') => {
+const displayError = (id,error) => {
+
     const displayHtml = document.getElementById(id);
         const html = `<div>
-        <div class="alert alert-danger text-center">No Result Found</div>
-        <div class="alert alert-danger text-center">${text} : ${error}</div>
+        <!-- <div class="alert alert-danger text-center">No Result Found</div> --> 
+        <div class="alert alert-danger text-center">  ${error ? error : 'No Result Found'}</div>
         <div>
         `
         displayHtml.insertAdjacentHTML('afterbegin', html);
 }
 
-// for empty value
-const emptyValueUi = () => {
+// for search input is empty
+const emptySearchInputUi = () => {
     const displayHtml = document.getElementById('display-ui');
     displayHtml.innerHTML = '<div class="alert alert-danger text-center">You did not input any search query</div>'
 }
@@ -90,24 +92,21 @@ const detailInfo = (id) => {
     const url = `https://openapi.programming-hero.com/api/phone/${id}`;
     fetch(url)
         .then(response => response.json())
-        .then(data => detailUiLoader(data))
+        .then(data => detailUiGenerator('detail-info',data))
+        .catch(error => displayError('detail-info', error))
 }
 
-
-const detailUiLoader = (data) => {
+// full details of a card generate in html
+const detailUiGenerator = (id, data) => {
     const {data:info, status} = data;
+
     if(!status) {
-        displayError('detail-info',status, 'Status') 
-        }
-
-        detailUiGenerator('detail-info', info)
-}
-
-const detailUiGenerator = (id, info) => {
-    // emptyUi("detail-info")
+        displayError(id) 
+    }
+    
     const displayHtml = document.getElementById(id);
         emptyUi(id)
-        const {name, image, slug, brand, mainFeatures, others} = info;      
+        const {name, image, slug, brand, mainFeatures} = info;      
         const div = document.createElement('div');
             div.innerHTML = `
                     <div class="row g-3">
@@ -142,5 +141,3 @@ const detailUiGenerator = (id, info) => {
             displayHtml.appendChild(div);
    
 }
-
-// https://github.com/programming-hero-web-course2/phone-hunter-johirhaquedipok

@@ -17,6 +17,11 @@ if result is more than 20. cut off the results
 
 5.OPTIONAL
 
- make a button for show all data 
+ make a button for show all data
  add a spinner while loading the data
  lowercase all input value👍
+
+ // ERROR  TYPES
+
+ 1. No Search Result Found
+ 2. Error : TypeError: Failed to fetch
